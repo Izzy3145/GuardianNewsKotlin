@@ -15,15 +15,25 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<List<New
 
 
     private val ARTICLE_LOADER_ID = 1
-    val mAdapter = ArticleAdapter(this, ArrayList<NewsArticle>())
+    lateinit var mAdapter:ArticleAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mAdapter = ArticleAdapter(this, ArrayList<NewsArticle>())
+
         news_list_view.adapter = mAdapter
         news_list_view.emptyView = empty_view
 
+        val connMgr = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connMgr.activeNetworkInfo
+
+        if (networkInfo != null && networkInfo.isConnected) {
+            supportLoaderManager.initLoader(ARTICLE_LOADER_ID, null, this)
+        } else {
+            empty_view.text = resources.getString(R.string.no_internet_connection)
+        }
 
         update_button.setOnClickListener(View.OnClickListener {
             supportLoaderManager.initLoader(
@@ -32,17 +42,6 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<List<New
                 this
             )
         })
-
-        val connMgr = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        //get status of default network connection
-        val networkInfo = connMgr.activeNetworkInfo
-
-        if (networkInfo != null && networkInfo.isConnected) {
-            supportLoaderManager.initLoader(ARTICLE_LOADER_ID, null, this)
-        } else {
-            empty_view.text = resources.getString(R.string.no_internet_connection)
-        }
     }
 
     override fun onCreateLoader(p0: Int, p1: Bundle?): Loader<List<NewsArticle>> {
