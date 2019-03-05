@@ -19,15 +19,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/title" />
+                android:text="@string/title" android:textAlignment="viewStart" android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp" android:textSize="24sp"/>
 
-        <Button
-                android:id="@+id/update_button"
-                style="@style/button_style"
-                android:layout_width="wrap_content"
+        <LinearLayout
+                android:id="@+id/search_ll"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/update" />
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp">
+
+            <EditText
+                    android:id="@+id/search_box"
+                    style="@style/title_style"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/search_hint" android:layout_marginStart="0dp" android:layout_marginEnd="8dp"
+                    android:layout_marginTop="4dp" android:layout_marginBottom="4dp" android:textSize="18sp"/>
+
+            <Button
+                    android:id="@+id/update_button"
+                    android:background="@drawable/round_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update"
+                    android:textSize="16sp"/>
+
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -51,6 +74,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/progress_bar"
-            android:gravity="center" />
+            android:gravity="center" android:layout_marginEnd="16dp" android:layout_marginStart="16dp"/>
 
 </RelativeLayout>

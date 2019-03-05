@@ -6,6 +6,7 @@ import android.util.Log
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import org.w3c.dom.Text
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
@@ -19,12 +20,14 @@ import java.nio.charset.Charset
 
 class QueryUtils {
     val LOG_TAG: String = "QUERY UTILS CLASS"
-    val API_URL: String =
-        "https://content.guardianapis.com/search?q=climatechange&api-key=9d3f96ad-2cc7-4f8d-9026-9f6f442bd691"
+    val BASE_URL: String = "https://content.guardianapis.com/search?q="
+    lateinit var searchText:String
+    val apiKey = "&api-key=9d3f96ad-2cc7-4f8d-9026-9f6f442bd691"
 
-    fun fetchNewsArticles(): List<NewsArticle>? {
+    fun fetchNewsArticles(search:String): List<NewsArticle>? {
+        searchText = search.replace(" ","")
 
-       val guardianAPI = createUrl(API_URL)
+       val guardianAPI = createUrl(searchText)
 
         var jsonResponse: String = try {
             makeHttpRequest(guardianAPI)
@@ -38,8 +41,9 @@ class QueryUtils {
         throw Exception(message)
     }
 
-    private fun createUrl(stringUrl: String): URL {
-        val url = try {URL(stringUrl)} catch(e: MalformedURLException){fail("MalformedURLException in createUrl()")}
+    private fun createUrl(searchText: String): URL {
+        val concatString = TextUtils.concat(BASE_URL, searchText, apiKey) as String
+        val url = try {URL(concatString)} catch(e: MalformedURLException){fail("MalformedURLException in createUrl()")}
         return url
     }
 

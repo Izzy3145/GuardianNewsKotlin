@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<List<New
 
     private val ARTICLE_LOADER_ID = 1
     lateinit var mAdapter:ArticleAdapter
+   // lateinit var searchedStr:String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +27,8 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<List<New
         news_list_view.adapter = mAdapter
         news_list_view.emptyView = empty_view
 
+    //    searchedStr = search_box.text.toString()
+
         val connMgr = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connMgr.activeNetworkInfo
 
@@ -35,17 +38,15 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<List<New
             empty_view.text = resources.getString(R.string.no_internet_connection)
         }
 
-        update_button.setOnClickListener(View.OnClickListener {
-            supportLoaderManager.initLoader(
-                ARTICLE_LOADER_ID,
-                null,
-                this
-            )
-        })
+        update_button.setOnClickListener {
+           // searchedStr = search_box.text.toString()
+            supportLoaderManager.restartLoader(ARTICLE_LOADER_ID, null, this)
+            //supportLoaderManager.initLoader(ARTICLE_LOADER_ID, null, this)
+        }
     }
 
     override fun onCreateLoader(p0: Int, p1: Bundle?): Loader<List<NewsArticle>> {
-        return ArticleLoader(this)
+        return ArticleLoader(this, search_box.text.toString())
     }
 
     override fun onLoadFinished(p0: Loader<List<NewsArticle>>, p1: List<NewsArticle>?) {
@@ -63,6 +64,6 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<List<New
 
 
     override fun onLoaderReset(p0: Loader<List<NewsArticle>>) {
-        mAdapter.clear();
+        mAdapter.clear()
     }
 }

@@ -37,7 +37,6 @@
     <style name="title_style" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textSize">@dimen/big_text</item>
         <item name="android:textColor">@color/primary_text</item>
-        <item name="android:textAllCaps">true</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginLeft">@dimen/medium_border</item>
         <item name="android:layout_marginRight">@dimen/medium_border</item>
